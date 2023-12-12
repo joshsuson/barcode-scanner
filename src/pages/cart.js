@@ -9,7 +9,7 @@ export default function CartPage() {
       <ul>
         {cart.map((product) => (
           <li key={product.title} className="md:flex w-full md:justify-between">
-            <div className="text-center flex gap-2">
+            <div className="text-center md:flex md:gap-2">
               <img
                 className="mx-auto md:mx-0"
                 src={product.cover}
