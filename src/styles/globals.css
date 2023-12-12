@@ -2,26 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.overlay {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+
+  --border-style: 4px solid lightgray;
+  --border-vertical: 35%;
+  --border-horizontal: 10%;
+
+  clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    11% 100%,
+    11% 36%,
+    89% 36%,
+    89% 64%,
+    11% 64%,
+    10% 100%,
+    100% 100%,
+    100% 0%
+  );
+}
+/*
+    0% 0%,  top left 
+    0% 100%, bottom left 
+    25% 100%, left connector 
+    25% 25%, inner top left 
+    75% 25%, inner top right 
+    75% 75%, inner bottom right 
+    25% 75%, inner bottom left 
+    25% 100%, bottom right connector 
+    100% 100%, bottom right 
+    100% 0%   top right
+    */
+
+.success {
+  --border-style: 4px solid limegreen;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.overlay-element {
+  position: absolute;
+  width: 15%; /* controls the length of the borders */
+  height: 10%; /* controls the height of the borders */
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.overlay .top-left {
+  border-left: var(--border-style);
+  border-top: var(--border-style);
+  top: var(--border-vertical);
+  left: var(--border-horizontal);
+}
+
+.overlay .top-right {
+  border-right: var(--border-style);
+  border-top: var(--border-style);
+  top: var(--border-vertical);
+  right: var(--border-horizontal);
+}
+
+.overlay .bottom-left {
+  border-left: var(--border-style);
+  border-bottom: var(--border-style);
+  bottom: var(--border-vertical);
+  left: var(--border-horizontal);
+}
+
+.overlay .bottom-right {
+  border-right: var(--border-style);
+  border-bottom: var(--border-style);
+  bottom: var(--border-vertical);
+  right: var(--border-horizontal);
 }
