@@ -7,17 +7,17 @@
   background: rgba(0, 0, 0, 0.5);
 
   --border-style: 4px solid lightgray;
-  --border-vertical: 35%;
-  --border-horizontal: 10%;
+  --border-vertical: 15%;
+  --border-horizontal: 20%;
 
   clip-path: polygon(
     0% 0%,
     0% 100%,
-    11% 100%,
-    11% 36%,
-    89% 36%,
-    89% 64%,
-    11% 64%,
+    21% 100%,
+    21% 17%,
+    79% 17%,
+    79% 83%,
+    11% 83%,
     10% 100%,
     100% 100%,
     100% 0%

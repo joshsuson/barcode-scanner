@@ -28,6 +28,14 @@ export default function CustomScanner({ setCameraOpen }) {
     return instance;
   }, []);
 
+  const initCamera = () => {
+    console.log("navigator", navigator);
+  };
+
+  useEffect(() => {
+    initCamera();
+  }, []);
+
   const videoRef = useCallback((node) => {
     if (node !== null) {
       console.log("node running", node.autoplay);
@@ -63,40 +71,46 @@ export default function CustomScanner({ setCameraOpen }) {
               setCameraLoaded(true);
             }
             if (result) {
-              setScanned(true);
-              setLoading(true);
-              try {
-                const { data } = await axios.get(
-                  "https://openlibrary.org/search.json",
-                  {
-                    params: {
-                      q: result.getText(),
-                    },
-                  }
-                );
-                if (data.docs.length > 0) {
-                  setBook(data.docs[0]);
-                  addToCart({
-                    title: data.docs[0].title,
-                    cover: `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`,
-                    isbn: data.docs[0].isbn[0],
-                    quantity: 1,
-                  });
-                  setLoading(false);
-                  setCameraOpen(false);
-                  router.push("/cart");
-                } else {
-                  setError(true);
-                  setMessage("No book found");
-                  setLoading(false);
-                }
-              } catch (err) {
-                console.log(err);
-                setError(true);
-                setMessage("Something went wrong");
-                setLoading(false);
-              }
+              console.log(result);
             }
+            if (error) {
+              console.log(error);
+            }
+            // if (result) {
+            //   setScanned(true);
+            //   setLoading(true);
+            //   try {
+            //     const { data } = await axios.get(
+            //       "https://openlibrary.org/search.json",
+            //       {
+            //         params: {
+            //           q: result.getText(),
+            //         },
+            //       }
+            //     );
+            //     if (data.docs.length > 0) {
+            //       setBook(data.docs[0]);
+            //       addToCart({
+            //         title: data.docs[0].title,
+            //         cover: `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`,
+            //         isbn: data.docs[0].isbn[0],
+            //         quantity: 1,
+            //       });
+            //       setLoading(false);
+            //       setCameraOpen(false);
+            //       router.push("/cart");
+            //     } else {
+            //       setError(true);
+            //       setMessage("No book found");
+            //       setLoading(false);
+            //     }
+            //   } catch (err) {
+            //     console.log(err);
+            //     setError(true);
+            //     setMessage("Something went wrong");
+            //     setLoading(false);
+            //   }
+            // }
           }
         );
       }
@@ -124,7 +138,7 @@ export default function CustomScanner({ setCameraOpen }) {
   }, []);
 
   return (
-    <div className="fixed top-0 h-screen max-w-3xl">
+    <div className="fixed left-0 top-0 h-screen w-full bg-blue-500 grid place-content-center">
       <button
         onClick={() => setCameraOpen(false)}
         className="absolute top-4 right-4 text-white z-20"
@@ -144,32 +158,41 @@ export default function CustomScanner({ setCameraOpen }) {
           />
         </svg>
       </button>
-      {cameraLoaded && (
-        <div
-          className={`overlay w-full h-full z-10 ${scanned ? "success" : ""}`}
-        >
-          <div className="relative w-full h-full">
-            <div className="overlay-element top-left" />
-            <div className="overlay-element top-right" />
-            <div className="overlay-element bottom-left" />
-            <div className="overlay-element bottom-right" />
+      <div className="max-w-3xl relative">
+        <div id="cameraContainer" className="relative">
+          {cameraLoaded && (
+            <div
+              id="cameraOverlay"
+              className={`w-full h-full overlay z-10 ${
+                scanned ? "success" : ""
+              }`}
+            >
+              <div className="w-full h-full">
+                <div className="overlay-element top-left" />
+                <div className="overlay-element top-right" />
+                <div className="overlay-element bottom-left" />
+                <div className="overlay-element bottom-right" />
+              </div>
+            </div>
+          )}
+          <div className="">
+            <video
+              className="w-full h-full object-cover aspect-video"
+              ref={videoRef}
+              id="customScanner"
+            ></video>
           </div>
         </div>
-      )}
-      <video
-        className="h-full max-w-full object-cover aspect-video"
-        ref={videoRef}
-        id="customScanner"
-      ></video>
-      <div className="absolute bg-white w-full bottom-0 z-20 py-10">
-        {loading && <p>Loading...</p>}
-        {error && <p>{message}</p>}
-        {book && (
-          <div>
-            <p>{book.title}</p>
-          </div>
-        )}
-        {!loading && !error && !book && <p>Scan book barcode to find book</p>}
+        <div className="bg-white w-full z-20 py-10">
+          {loading && <p>Loading...</p>}
+          {error && <p>{message}</p>}
+          {book && (
+            <div>
+              <p>{book.title}</p>
+            </div>
+          )}
+          {!loading && !error && !book && <p>Scan book barcode to find book</p>}
+        </div>
       </div>
     </div>
   );

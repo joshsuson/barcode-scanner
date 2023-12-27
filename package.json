@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ericblade/quagga2": "^1.8.4",
     "@zxing/library": "^0.20.0",
     "axios": "^1.6.2",
     "next": "14.0.3",
