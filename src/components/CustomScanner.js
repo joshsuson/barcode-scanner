@@ -70,47 +70,47 @@ export default function CustomScanner({ setCameraOpen }) {
             if (!cameraLoaded) {
               setCameraLoaded(true);
             }
-            if (result) {
-              console.log(result);
-            }
-            if (error) {
-              console.log(error);
-            }
             // if (result) {
-            //   setScanned(true);
-            //   setLoading(true);
-            //   try {
-            //     const { data } = await axios.get(
-            //       "https://openlibrary.org/search.json",
-            //       {
-            //         params: {
-            //           q: result.getText(),
-            //         },
-            //       }
-            //     );
-            //     if (data.docs.length > 0) {
-            //       setBook(data.docs[0]);
-            //       addToCart({
-            //         title: data.docs[0].title,
-            //         cover: `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`,
-            //         isbn: data.docs[0].isbn[0],
-            //         quantity: 1,
-            //       });
-            //       setLoading(false);
-            //       setCameraOpen(false);
-            //       router.push("/cart");
-            //     } else {
-            //       setError(true);
-            //       setMessage("No book found");
-            //       setLoading(false);
-            //     }
-            //   } catch (err) {
-            //     console.log(err);
-            //     setError(true);
-            //     setMessage("Something went wrong");
-            //     setLoading(false);
-            //   }
+            //   console.log(result);
             // }
+            // if (error) {
+            //   console.log(error);
+            // }
+            if (result) {
+              setScanned(true);
+              setLoading(true);
+              try {
+                const { data } = await axios.get(
+                  "https://openlibrary.org/search.json",
+                  {
+                    params: {
+                      q: result.getText(),
+                    },
+                  }
+                );
+                if (data.docs.length > 0) {
+                  setBook(data.docs[0]);
+                  addToCart({
+                    title: data.docs[0].title,
+                    cover: `https://covers.openlibrary.org/b/id/${data.docs[0].cover_i}-M.jpg`,
+                    isbn: data.docs[0].isbn[0],
+                    quantity: 1,
+                  });
+                  setLoading(false);
+                  setCameraOpen(false);
+                  router.push("/cart");
+                } else {
+                  setError(true);
+                  setMessage("No book found");
+                  setLoading(false);
+                }
+              } catch (err) {
+                console.log(err);
+                setError(true);
+                setMessage("Something went wrong");
+                setLoading(false);
+              }
+            }
           }
         );
       }
